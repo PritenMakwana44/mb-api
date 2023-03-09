@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from posts.models import Post
 
 
-class Saves(models.Model):
+class Save(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     posts = models.ForeignKey(
         Post, related_name='saved', on_delete=models.CASCADE)

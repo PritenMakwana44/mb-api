@@ -1,13 +1,13 @@
 from django.db import IntegrityError
 from rest_framework import serializers
-from saves.models import Saves
+from saves.models import Save
 
 
-class SavesSerializer(serializers.ModelSerializer):
+class SaveSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
-        model = Saves
+        model = Save
         fields = [
             'id', 'created_on', 'owner', 'posts']
 
