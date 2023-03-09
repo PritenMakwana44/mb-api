@@ -9,6 +9,8 @@ class PostSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     save_id = serializers.SerializerMethodField()
+    save_count = serializers.ReadOnlyField()
+    comments_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -31,7 +33,7 @@ class PostSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_authenticated:
             save = Save.objects.filter(
-                owner=user, post=obj
+                owner=user, posts=obj
             ).first()
             return save.id if save else None
         return None
@@ -42,5 +44,5 @@ class PostSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'description', 'image', 'type', 'year',
-            'save_id',
+            'save_id', 'save_count', 'comments_count',
         ]
