@@ -101,7 +101,9 @@ INSTALLED_APPS = [
     'gallery',
     'posts',
     'profiles',
-    'saves'
+    'saves',
+    'saves_gallery',
+    'comments_gallery'
 ]
 SITE_ID = 1
 MIDDLEWARE = [
