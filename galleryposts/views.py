@@ -2,20 +2,20 @@ from django.db.models import Count
 from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from mb_api.permissions import IsOwnerOrReadOnly
-from .models import Gallery
-from .serializers import GallerySerializer
+from .models import GalleryPost
+from .serializers import GalleryPostSerializer
 
 
-class GalleryList(generics.ListCreateAPIView):
+class GalleryPostList(generics.ListCreateAPIView):
     """
     List posts or create a post if logged in
     The perform_create method associates the post with the logged in user.
     """
-    serializer_class = GallerySerializer
+    serializer_class = GalleryPostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Gallery.objects.annotate(
-        save_gallery_count=Count('saved_gallery', distinct=True),
-        comments_gallery_count=Count('comment_gallery', distinct=True)
+    queryset = GalleryPost.objects.annotate(
+        gallerysave_count=Count('gallerysaved', distinct=True),
+        gallerycomments_count=Count('gallerycomment', distinct=True)
     ).order_by('-created_at')
     filter_backends = [
         filters.OrderingFilter,
@@ -24,7 +24,7 @@ class GalleryList(generics.ListCreateAPIView):
     ]
     filterset_fields = [
         'owner__followed__owner__profile',
-        'saved_gallery__owner__profile',
+        'gallerysaved__owner__profile',
         'owner__profile',
     ]
     search_fields = [
@@ -32,22 +32,21 @@ class GalleryList(generics.ListCreateAPIView):
         'title',
     ]
     ordering_fields = [
-        'save_gallery_count',
-        'comments_gallery_count',
-        'save_gallery__created_at',
+        'gallerysave_count',
+        'gallerysave__created_at',
     ]
 
     def perform_create(self, serializer):
-        serializer.save_gallery(owner=self.request.user)
+        serializer.gallerysave(owner=self.request.user)
 
 
-class GalleryDetail(generics.RetrieveUpdateDestroyAPIView):
+class GalleryPostDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve a post and edit or delete it if you own it.
     """
-    serializer_class = GallerySerializer
+    serializer_class = GalleryPostSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Gallery.objects.annotate(
-        save_gallery_count=Count('saved_gallery', distinct=True),
-        comments_gallery_count=Count('comment_gallery', distinct=True)
+    queryset = GalleryPost.objects.annotate(
+        gallerysave_count=Count('gallerysaved', distinct=True),
+        gallerycomments_count=Count('gallerycomment', distinct=True)
     ).order_by('-created_at')

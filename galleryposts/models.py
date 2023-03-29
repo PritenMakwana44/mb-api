@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Gallery(models.Model):
+class GalleryPost(models.Model):
     """
     Gallery model, related to 'owner', i.e. a User instance.
     Default image set so that we can always reference image.url.

@@ -1,9 +1,9 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from rest_framework import serializers
-from .models import Comment_gallery
+from .models import GalleryComment
 
 
-class Comment_gallerySerializer(serializers.ModelSerializer):
+class GalleryCommentSerializer(serializers.ModelSerializer):
     """
     Serializer for the Comment model
     Adds three extra fields when returning a list of Comment instances
@@ -26,16 +26,16 @@ class Comment_gallerySerializer(serializers.ModelSerializer):
         return naturaltime(obj.updated_at)
 
     class Meta:
-        model = Comment_gallery
+        model = GalleryComment
         fields = [
             'id', 'owner', 'is_owner', 'profile_id', 'profile_image',
-            'gallery', 'created_at', 'updated_at', 'content'
+            'gallerypost', 'created_at', 'updated_at', 'content'
         ]
 
 
-class Comment_galleryDetailSerializer(Comment_gallerySerializer):
+class GalleryCommentDetailSerializer(GalleryCommentSerializer):
     """
     Serializer for the Comment model used in Detail view
     Post is a read only field so that we dont have to set it on each update
     """
-    gallery = serializers.ReadOnlyField(source='gallery.id')
+    gallerypost = serializers.ReadOnlyField(source='gallerypost.id')

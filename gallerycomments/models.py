@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
-from gallery.models import Gallery
+from galleryposts.models import GalleryPost
 
 
-class Comment_gallery(models.Model):
+class GalleryComment(models.Model):
     """
     Comment model, related to User and Post
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    gallerypost = models.ForeignKey(GalleryPost, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField()

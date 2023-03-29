@@ -1,15 +1,15 @@
 from django.db import IntegrityError
 from rest_framework import serializers
-from saves_gallery.models import Save_gallery
+from gallerysaves.models import GallerySave
 
 
-class Save_gallerySerializer(serializers.ModelSerializer):
+class GallerySaveSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
-        model = Save_gallery
+        model = GallerySave
         fields = [
-            'id', 'created_on', 'owner', 'gallery']
+            'id', 'created_on', 'owner', 'galleryposts']
 
     def create(self, validated_data):
         try:

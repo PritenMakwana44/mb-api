@@ -1,16 +1,16 @@
 from rest_framework import serializers
-from gallery.models import Gallery
-from saves_gallery.models import Save_gallery
+from galleryposts.models import GalleryPost
+from gallerysaves.models import GallerySave
 
 
-class GallerySerializer(serializers.ModelSerializer):
+class GalleryPostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
-    save_gallery_id = serializers.SerializerMethodField()
-    save_gallery_count = serializers.ReadOnlyField()
-    comments_gallery_count = serializers.ReadOnlyField()
+    gallerysave_id = serializers.SerializerMethodField()
+    gallerysave_count = serializers.ReadOnlyField()
+    gallerycomments_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -29,21 +29,21 @@ class GallerySerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
-    def get_save_gallery_id(self, obj):
+    def get_gallerysave_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            save_gallery = Save_gallery.objects.filter(
-                owner=user, gallery=obj
+            gallerysave = GallerySave.objects.filter(
+                owner=user, galleryposts=obj
             ).first()
-            return save_gallery.id if save_gallery else None
+            return gallerysave.id if gallerysave else None
         return None
 
     class Meta:
-        model = Gallery
+        model = GalleryPost
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'item_list', 'image',
-            'save_gallery_id', 'save_gallery_count', 
-            'comments_gallery_count',
+            'gallerysave_id', 'gallerysave_count', 
+            'gallerycomments_count',
         ]

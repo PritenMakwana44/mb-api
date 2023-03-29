@@ -112,12 +112,12 @@ INSTALLED_APPS = [
     'comments',
     'contact',
     'followers',
-    'gallery',
+    'galleryposts',
     'posts',
     'profiles',
     'saves',
-    'saves_gallery',
-    'comments_gallery'
+    'gallerysaves',
+    'gallerycomments'
 ]
 SITE_ID = 1
 MIDDLEWARE = [
