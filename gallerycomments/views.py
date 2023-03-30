@@ -15,7 +15,7 @@ class GalleryCommentList(generics.ListCreateAPIView):
     filterset_fields = ['gallerypost']
 
     def perform_create(self, serializer):
-        serializer.gallerysave(owner=self.request.user)
+        serializer.save(owner=self.request.user)
 
 
 class GalleryCommentDetail(generics.RetrieveUpdateDestroyAPIView):
