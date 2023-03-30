@@ -37,7 +37,7 @@ class GalleryPostList(generics.ListCreateAPIView):
     ]
 
     def perform_create(self, serializer):
-        serializer.gallerysaves(owner=self.request.user)
+        serializer.gallerysave(owner=self.request.user)
 
 
 class GalleryPostDetail(generics.RetrieveUpdateDestroyAPIView):
