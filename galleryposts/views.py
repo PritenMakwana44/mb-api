@@ -50,3 +50,10 @@ class GalleryPostDetail(generics.RetrieveUpdateDestroyAPIView):
         gallerysave_count=Count('gallerysaved', distinct=True),
         gallerycomments_count=Count('gallerycomment', distinct=True)
     ).order_by('-created_at')
+
+    def put(self, request, pk):
+        serializer = GalleryPostSerializer(data=request.data, context={"request": request})
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.data)
+            print(serializer.errors)
