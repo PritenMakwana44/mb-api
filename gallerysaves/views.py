@@ -10,7 +10,7 @@ class GallerySaveList(generics.ListCreateAPIView):
     queryset = GallerySave.objects.all()
 
     def perform_create(self, serializer):
-        serializer.gallerysave(owner=self.request.user)
+        serializer.save(owner=self.request.user)
 
 
 class GallerySaveDetail(generics.RetrieveDestroyAPIView):

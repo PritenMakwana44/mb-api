@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from rest_framework import serializers
-from saves.models import Save
+from save.models import Save
 
 
 class SaveSerializer(serializers.ModelSerializer):

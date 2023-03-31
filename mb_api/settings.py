@@ -115,7 +115,7 @@ INSTALLED_APPS = [
     'galleryposts',
     'posts',
     'profiles',
-    'saves',
+    'save',
     'gallerysaves',
     'gallerycomments'
 ]
