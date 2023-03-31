@@ -38,4 +38,5 @@ urlpatterns = [
     path('', include('galleryposts.urls')),
     path('', include('gallerysaves.urls')),
     path('', include('gallerycomments.urls')),
+    path('', include('contact.urls')),
 ]
