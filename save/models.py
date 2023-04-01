@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from posts.models import Post
-from galleryposts.models import GalleryPost
 
 
 class Save(models.Model):
@@ -9,13 +8,10 @@ class Save(models.Model):
     posts = models.ForeignKey(
         Post, related_name='saved', on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
-    galleryposts = models.ForeignKey(
-        GalleryPost, related_name='saved', on_delete=models.CASCADE)
-    created_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_on']
-        unique_together = ['owner', 'posts', 'galleryposts']
+        unique_together = ['owner', 'posts']
 
     def __str__(self):
-        return f'{self.owner} {self.posts}, {self.galleryposts}'
+        return f'{self.owner} {self.posts}'

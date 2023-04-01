@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from galleryposts.models import GalleryPost
-from save.models import Save
 
 
 class GalleryPostSerializer(serializers.ModelSerializer):
@@ -8,8 +7,6 @@ class GalleryPostSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
-    save_id = serializers.SerializerMethodField()
-    save_count = serializers.ReadOnlyField()
     gallerycomments_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
@@ -29,21 +26,11 @@ class GalleryPostSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
-    def get_save_id(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            save = Save.objects.filter(
-                owner=user, galleryposts=obj
-            ).first()
-            return save.id if save else None
-        return None
-
     class Meta:
         model = GalleryPost
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'item_list', 'image',
-            'save_id', 'save_count', 
             'gallerycomments_count',
         ]

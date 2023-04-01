@@ -14,7 +14,6 @@ class GalleryPostList(generics.ListCreateAPIView):
     serializer_class = GalleryPostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = GalleryPost.objects.annotate(
-        save_count=Count('saved', distinct=True),
         gallerycomments_count=Count('gallerycomment', distinct=True)
     ).order_by('-created_at')
     filter_backends = [
@@ -24,16 +23,11 @@ class GalleryPostList(generics.ListCreateAPIView):
     ]
     filterset_fields = [
         'owner__followed__owner__profile',
-        'saved__owner__profile',
         'owner__profile',
     ]
     search_fields = [
         'owner__username',
         'title',
-    ]
-    ordering_fields = [
-        'save_count',
-        'save__created_at',
     ]
 
     def perform_create(self, serializer):
@@ -47,7 +41,6 @@ class GalleryPostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GalleryPostSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = GalleryPost.objects.annotate(
-        save_count=Count('saved', distinct=True),
         gallerycomments_count=Count('gallerycomment', distinct=True)
     ).order_by('-created_at')
 
