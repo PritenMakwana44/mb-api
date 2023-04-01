@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from galleryposts.models import GalleryPost
-from gallerysaves.models import GallerySave
+from saves.models import Save
 
 
 class GalleryPostSerializer(serializers.ModelSerializer):
@@ -8,8 +8,8 @@ class GalleryPostSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
-    gallerysave_id = serializers.SerializerMethodField()
-    gallerysave_count = serializers.ReadOnlyField()
+    save_id = serializers.SerializerMethodField()
+    save_count = serializers.ReadOnlyField()
     gallerycomments_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
@@ -29,13 +29,13 @@ class GalleryPostSerializer(serializers.ModelSerializer):
         request = self.context['request']
         return request.user == obj.owner
 
-    def get_gallerysave_id(self, obj):
+    def get_save_id(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            gallerysave = GallerySave.objects.filter(
+            save = Save.objects.filter(
                 owner=user, galleryposts=obj
             ).first()
-            return gallerysave.id if gallerysave else None
+            return save.id if save else None
         return None
 
     class Meta:
@@ -44,6 +44,6 @@ class GalleryPostSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'item_list', 'image',
-            'gallerysave_id', 'gallerysave_count', 
+            'save_id', 'save_count', 
             'gallerycomments_count',
         ]
