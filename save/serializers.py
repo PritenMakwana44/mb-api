@@ -9,7 +9,7 @@ class SaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Save
         fields = [
-            'id', 'created_on', 'owner', 'posts', 'galleryposts']
+            'id', 'created_on', 'owner', 'posts']
 
     def create(self, validated_data):
         try:
