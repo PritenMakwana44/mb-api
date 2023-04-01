@@ -116,7 +116,6 @@ INSTALLED_APPS = [
     'posts',
     'profiles',
     'save',
-    'gallerysaves',
     'gallerycomments'
 ]
 SITE_ID = 1

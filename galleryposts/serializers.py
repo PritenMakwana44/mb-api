@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from galleryposts.models import GalleryPost
-from saves.models import Save
+from save.models import Save
 
 
 class GalleryPostSerializer(serializers.ModelSerializer):
