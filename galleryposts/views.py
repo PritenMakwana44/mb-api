@@ -8,8 +8,7 @@ from .serializers import GalleryPostSerializer
 
 class GalleryPostList(generics.ListCreateAPIView):
     """
-    List posts or create a post if logged in
-    The perform_create method associates the post with the logged in user.
+    List Gallery posts or create a Gallery post if logged in
     """
     serializer_class = GalleryPostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -45,7 +44,8 @@ class GalleryPostDetail(generics.RetrieveUpdateDestroyAPIView):
     ).order_by('-created_at')
 
     def post(self, request, pk):
-        serializer = GalleryPostSerializer(data=request.data, context={"request": request})
+        serializer = GalleryPostSerializer(data=request.data,
+                                           context={"request": request})
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)

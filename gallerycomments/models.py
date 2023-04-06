@@ -5,7 +5,7 @@ from galleryposts.models import GalleryPost
 
 class GalleryComment(models.Model):
     """
-    Comment model, related to User and Post
+    Gallery Comment model, related to User and Gallery post
     """
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     gallerypost = models.ForeignKey(GalleryPost, on_delete=models.CASCADE)

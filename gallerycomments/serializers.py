@@ -5,8 +5,7 @@ from .models import GalleryComment
 
 class GalleryCommentSerializer(serializers.ModelSerializer):
     """
-    Serializer for the Comment model
-    Adds three extra fields when returning a list of Comment instances
+    Serializer for the Gallery Comment model
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
@@ -35,7 +34,6 @@ class GalleryCommentSerializer(serializers.ModelSerializer):
 
 class GalleryCommentDetailSerializer(GalleryCommentSerializer):
     """
-    Serializer for the Comment model used in Detail view
-    Post is a read only field so that we dont have to set it on each update
+    Serializer for the Gallery Comment model used in Detail view
     """
     gallerypost = serializers.ReadOnlyField(source='gallerypost.id')
