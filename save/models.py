@@ -4,12 +4,14 @@ from posts.models import Post
 
 
 class Save(models.Model):
+    """Save model for posts"""
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     posts = models.ForeignKey(
         Post, related_name='saved', on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        """ordering"""
         ordering = ['-created_on']
         unique_together = ['owner', 'posts']
 

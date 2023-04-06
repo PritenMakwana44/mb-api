@@ -5,6 +5,7 @@ from save.serializers import SaveSerializer
 
 
 class SaveList(generics.ListCreateAPIView):
+    """View for Save list for posts"""
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = SaveSerializer
     queryset = Save.objects.all()
@@ -14,8 +15,7 @@ class SaveList(generics.ListCreateAPIView):
 
 
 class SaveDetail(generics.RetrieveDestroyAPIView):
+    """Detail View for Save list for posts"""
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = SaveSerializer
     queryset = Save.objects.all()
-
-

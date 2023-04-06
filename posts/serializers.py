@@ -4,6 +4,7 @@ from save.models import Save
 
 
 class PostSerializer(serializers.ModelSerializer):
+    """Post serializer"""
     owner = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
@@ -13,6 +14,7 @@ class PostSerializer(serializers.ModelSerializer):
     comments_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
+        "Check values for size, width and height on post images"
         if value.size > 2 * 1024 * 1024:
             raise serializers.ValidationError('Image size larger than 2MB!')
         if value.image.height > 4096:
@@ -26,10 +28,12 @@ class PostSerializer(serializers.ModelSerializer):
         return value
 
     def get_is_owner(self, obj):
+        """Check if user is the same as owner"""
         request = self.context['request']
         return request.user == obj.owner
 
     def get_save_id(self, obj):
+        """return save count per user"""
         user = self.context['request'].user
         if user.is_authenticated:
             save = Save.objects.filter(
@@ -39,6 +43,7 @@ class PostSerializer(serializers.ModelSerializer):
         return None
 
     class Meta:
+        """Meta class for model and fields"""
         model = Post
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',

@@ -4,9 +4,11 @@ from save.models import Save
 
 
 class SaveSerializer(serializers.ModelSerializer):
+    """Serializer for save model"""
     owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
+        """Meta for model and fields for save"""
         model = Save
         fields = [
             'id', 'created_on', 'owner', 'posts']
