@@ -573,10 +573,9 @@ DATABASES = {
         os.environ.get('DATABASE_URL')
     ))
 }
-
+```
 44. Install Gunicorn via pip install gunicorn
 45. Create Procfile in root of project and add the following lines:
-
 ```
 release: python manage.py makemigrations && python manage.py migrate
 
@@ -640,7 +639,6 @@ os.environ['SECRET_KEY'] = 'CreateRandomValue'
 ```
 
 52. In your settings.py add:
-
 ```
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
