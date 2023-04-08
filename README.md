@@ -298,7 +298,7 @@ Due to time constrains we were unable to fix these following bugs:
 
 # Deployment
 
-## Deployment of Project:
+## Project setup for Backend:
 Github:
 1. Go to Code Insitite Template [CI template](https://github.com/Code-Institute-Org/gitpod-full-template)
 2. Create project using template
@@ -308,15 +308,180 @@ Project setup:
 5. Install cloudinary and Pillow via pip install django-cloudinary-storage==0.3.0 and pip install Pillow==8.2.0
 6. Add the following to your installed apps in your settings.py " 'cloudinary_storage','django.contrib.staticfiles' and'cloudinary. Make sure they are added in that order top to bottom:
 
-[installedapps1](/readme/images/deployment/installedapps1.png)
+```
+INSTALLED_APPS = [
+    (...)
+    'cloudinary_storage',
+    'django.contrib.staticfiles',
+    'cloudinary',
+]
+
+```
 
 7. Create a env.py in root of directory with import.os and os.environ["CLOUDINARY_URL"] = "cloudinary://API KEY HERE"
 
-[cloudinary env.py](/readme/images/deployment/cloudinaryenv.py.png)
+```
+import os
+os.environ['CLOUDINARY_URL'] = 'cloudinary://<cloudinary_key>'
+
+```
 
 8. Add following to your settings.py:
 
-[settings.py1](/readme/images/deployment/settings.py1.png)
+```
+from pathlib import Path
+import os
+if os.path.exists('env.py'):
+    import env
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+}
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+```
+
+9. Git add, commit and push
+
+Deployment:
+
+10. Install JSON web token auth via command pip3 install dj-rest-auth==2.1.9
+11. Add 'rest_framework.authtoken' and 'dj_rest_auth' into settings.py under installed apps:
+
+```
+INSTALLED_APPS = [
+    ...
+    'django_filters',
+
+    'rest_framework.authtoken', 
+    'dj_rest_auth', 
+
+    ‘profiles’,
+    ...
+]
+```
+
+12. Add "path('dj-rest-auth/', include('dj_rest_auth.urls'))," into your project app urls.py
+
+```
+urlpatterns = [
+    …,
+    path('api-auth/', include('rest_framework.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    
+    path('', include('profiles.urls')),
+    ....,
+]
+
+```
+
+13. Enter command python manage.py migrate
+14. Install Django auth via pip install 'dj-rest-auth[with_social]'
+15. Add following into settings.py 'django.contrib.sites', 'allauth', 'allauth.account', 'allauth.socialaccount', 'dj_rest_auth.registration',
+
+```
+INSTALLED_APPS = [
+    …,
+    'dj_rest_auth',
+     
+    'django.contrib.sites', 
+    'allauth', 
+    'allauth.account', 
+    'allauth.socialaccount', 
+    'dj_rest_auth.registration',
+
+    'profiles',
+    ...,
+]
+```
+
+16. Add SITE_ID = 1 under installed apps list in settings.py
+
+```
+SITE_ID = 1
+
+```
+17. Add  path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')), to your project app urls.py
+
+```
+urlpatterns = [
+    …,
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    
+    path('', include('profiles.urls')),
+   …,
+]
+
+```
+
+18. In terminal install your simplejwt package via pip install djangorestframework-simplejwt==4.7.2
+19. Add the following to your env.py
+
+```
+os.environ['DEV'] = '1'
+
+```
+
+20. Add following to settings.py.
+
+```
+​​REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [( 
+        'rest_framework.authentication.SessionAuthentication' 
+        if 'DEV' in os.environ 
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    )]
+    }
+
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_SECURE = True
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+
+```
+
+21. Create serializers.py in your project app directory e.g mb_api/serializers.py
+22. Add following to your serializers.py file:
+
+```
+from dj_rest_auth.serializers import UserDetailsSerializer
+from rest_framework import serializers
+class CurrentUserSerializer(UserDetailsSerializer):
+    profile_id = serializers.ReadOnlyField(source='profile.id')
+    profile_image = serializers.ReadOnlyField(source='profile.image.url')
+    class Meta(UserDetailsSerializer.Meta):
+        fields = UserDetailsSerializer.Meta.fields + ('profile_id', 'profile_image')
+
+```
+
+23. In settings.py add: 
+```
+REST_AUTH_SERIALIZERS = {'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'}
+
+```
+
+This will overwrite this:
+
+```
+USER_DETAILS_SERIALIZER
+Place under JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+
+```
+
+24. In terminal run python manage.py migrate and pip freeze > requirements.txt
+25. git add, commit, push
+
+
+
+
+
+
+
+
+
+
 
 
 
