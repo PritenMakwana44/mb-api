@@ -7,9 +7,7 @@
 
 
 [Testing](#testing)
-+ [Functionality and Compatibility Testing](#functionality-and-compatibility-testing)
 + [Code Validator Testing](#code-validator-testing)
-+ [SEO Testing](#seo-testing)
 + [Manual Testing](#manual-testing)
 
 
@@ -47,6 +45,34 @@ The application was built on HTML, CSS, Javascript, React.js, Bootstrap and Djan
 Here is my database schema:
 
 ![matteblackschema](/readme/images/matteblackschema.png)
+
+# Testing
+
+## Code Validator Testing
+I used [CI Python Linter](https://pep8ci.herokuapp.com/) to validate all my code. There was a built in validator too but I ran it through the linter just incase.
+Only 1 issue was picked up which is in my settings.py:
+"line too long (83 > 79 characters)"
+I was unable to find any way of shortening the line any more.
+
+## Manual Testing
+
+I used the following Table to test my backend apps.
+
+
+![Testing table](/readme/images/testing/test_table.png)
+
+---
+
+Here are the series of tests manually conducted:
+
+1. Posts
+
+Add Post testing
+
+![Add Post Testing](/readme/images/testing/1-be-testing-addpost.png)
+
+
+
 
 
 
