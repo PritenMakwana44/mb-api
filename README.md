@@ -30,7 +30,7 @@
 
 # Matte Black
 
-[![Matte Black](src/assets/readme/responsive.png)](https://matte-black.herokuapp.com/)
+[![Matte Black](/readme/images/responsive.png)](https://matte-black.herokuapp.com/)
 
 Live Site: [Click Here](https://matte-black.herokuapp.com/)
 Github Frontend: [Click Here](https://github.com/PritenMakwana44/matte-black)
@@ -46,7 +46,7 @@ The application was built on HTML, CSS, Javascript, React.js, Bootstrap and Djan
 
 Here is my database schema:
 
-![matteblackschema](../mb-api/readme/images/matteblackschema.png)
+![matteblackschema](/readme/images/matteblackschema.png)
 
 
 
