@@ -65,59 +65,184 @@ I used the following Table to test my backend apps.
 
 Here are the series of tests manually conducted:
 
-1. Posts
+## Posts Testing
 
 Add Post testing
 
 ![Add Post Testing](/readme/images/testing/1-be-testing-addpost.png)
 
+Read Post testing
+
+![Read Post Testing](/readme/images/testing/2-be-testing-readpost.png)
+
+Edit Post testing
+
+![Edit Post Testing](/readme/images/testing/3-be-testing-editpost.png)
+
+Edit Post after testing
+
+![Edit Post after Testing](/readme/images/testing/4-be-testing-editpostafter.png)
+
+Delete Post testing
+
+![Delete Post Testing](/readme/images/testing/5-be-testing-deletepost.png)
+
+Delete Post after testing
+
+![Delete Post after Testing](/readme/images/testing/6-be-testing-deletepostafter.png)
+
+---
+
+## Profile Testing
+
+Create User testing
+
+![create user](/readme/images/testing/7-be-testing-createuser.png)
+
+Profile edit testing
+
+![Profile edit](/readme/images/testing/8-be-testing-profileedit.png)
+
+Profile read testing
+
+![profile read](/readme/images/testing/9-be-testing-profileread.png)
+
+Profile read detail testing
+
+![profile read detail](/readme/images/testing/10-be-testing-profileread.png)
+
+---
+
+## Gallerypost Testing
+
+Gallery post add testing
+
+![gallerypost add](/readme/images/testing/11-be-testing-gallerypostadd.png)
+
+Gallery post read testing
+
+![gallerypost read](/readme/images/testing/12-be-testing-gallerypostread.png)
+
+Gallery post edit testing
+
+![gallery post edit1](/readme/images/testing/13-be-testing-gallerypostedit.png)
+
+![gallery post edit2](/readme/images/testing/14-be-testing-gallerypostedit2.png)
+
+![gallery post edit after](/readme/images/testing/15-be-testing-galleryposteditafter.png)
+
+Gallery post delete testing
+
+![gallery post delete](/readme/images/testing/16-be-testing-gallerypostdelete.png)
+
+![gallery post delete after](/readme/images/testing/17-be-testing-gallerypostdeleteafter.png)
+
+---
+
+## Follower Testing
+
+Follower read testing
+
+![follower read](/readme/images/testing/18-be-testing-followerread.png)
+
+Follower create testing
+
+![follower create](/readme/images/testing/19-be-testing-followercreate.png)
+
+Follower delete testing
+
+![follower delete](/readme/images/testing/20-be-testing-followerdelete.png)
+![follower delete after](/readme/images/testing/21-be-testing-followerdeleteafter.png)
+
+---
+
+## Contact Testing
+
+Contact create testing
+
+![contact create](/readme/images/testing/22-be-testing-contactcreate.png)
+
+Contact read testing
+
+![contact read](/readme/images/testing/23-be-testing-contactread.png)
+
+---
+
+## Comment Testing
+
+Comment create testing
+
+![comment create](/readme/images/testing/24-be-testing-commentcreate.png)
+
+Comment read testing
+
+![comment read](/readme/images/testing/25-be-testing-commentread.png)
+
+Comment edit testing
+
+![comment edit](/readme/images/testing/26-be-testing-commentedit.png)
+
+![comment edit after](/readme/images/testing/27-be-testing-commentreditafter.png)
+
+Comment delete testing
+
+![comment delete](/readme/images/testing/28-be-testing-commentdelete.png)
+
+![comment delete after](/readme/images/testing/29-be-testing-commentdeleteafter.png)
 
 
+---
 
+## Gallery Comment Testing
 
+Gallery comment create testing
+
+![Gallery comment create](/readme/images/testing/30-be-testing-gallerycommentcreate.png)
+
+Gallery comment read testing
+
+![Gallery comment read](/readme/images/testing/31-be-testing-gallerycommentread.png)
+
+Gallery comment edit testing
+
+![Gallery comment edit](/readme/images/testing/32-be-testing-gallerycommentedit.png)
+
+![Gallery comment edit after](/readme/images/testing/33-be-testing-gallerycommenteditafter.png)
+
+Gallery comment delete testing
+
+![Gallery comment delete](/readme/images/testing/34-be-testing-gallerycommentdelete.png)
+
+![Gallery comment delete after](/readme/images/testing/35-be-testing-gallerycommentdeleteafter.png)
+
+---
+
+## Save Testing
+
+Save create testing
+
+![Save create](/readme/images/testing/36-be-testing-savecreate.png)
+
+Save read testing
+
+![Save read](/readme/images/testing/37-be-testing-saveread.png)
+
+Save delete testing
+
+![Save delete](/readme/images/testing/38-be-testing-savedelete.png)
+
+![Save delete after](/readme/images/testing/39-be-testing-saverdeleteafter.png)
+
+---
 
 
 # Bugs
 ## Fixed Bugs
 
-1. Issue: paragraph tags showing around description on Review list.
+1. Error when creating new user. Fix: delete local database
 
-![tag-bug](readme/images/bugs/tag-bug.png)
+![createuser bug](readme/images/bugs/createuser_bug.png)
     
-Fix: change line from {{ review.description }} to {{ review.description | safe }}
-
-![tag-bug-fixed](readme/images/bugs/tag-bug-fixed.png)
-
-2. Issue: When leaving a comment user get's no alert to say the comment has been sent for authorisation.
-    
-Fix: Add alert code to the views.py for comments.
-Before:
-
-![comment-alert-bug-code](readme/images/bugs/comment-alert-code.png)
-
-After:
-
-![comment-alert-big-code-fixed](readme/images/bugs/comment-alert-code-fixed.png)
-
-
-![comment-alert-fixed-bug](readme/images/bugs/comment-alert-fixed.png)
-
-3. Delete Review button spacing bug
-
-![delete-review-spacing-bug](readme/images/bugs/delete-review-spacing.png)
-    
-Fix: Add break after delete review button
-Code before:
-
-![delete-review](readme/images/bugs/delete-review-spacing-code.png)
-
-Code after: 
-
-![delete-review](readme/images/bugs/delete-review-spacing-code-fixed.png)
-
-Outcome:
-
-![delete-review](readme/images/bugs/delete-review-spacing-fixed.png)
 
 
 ## Unfixed Bugs
@@ -127,17 +252,6 @@ Due to time constrains we were unable to fix these following bugs:
 1. Issue: When adding or editing  reviews the draft function looses the post as a end user.
 Potential fix: Add a draft section in navbar where all drafts are saved.
 
-2. Issue: In mobile mode when adding or editing reviews the summernote text field isn't responsive.
-Potential fix: Would need more research. 
-
-3. Issue: Downvotes button allignment is slightly higher then upvotes.
-Potential fix: Would need more research.
-
-4. Issue: No 404 error page
-Potential fix: Add 404 error page and add to URL.py.
-
-5. Issue: Back to top button displayed on all pages including signup, signin and sign out. 
-Potential fix: Needs more research
 
 # Deployment
 
