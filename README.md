@@ -239,6 +239,8 @@ Save delete testing
 # Bugs
 ## Fixed Bugs
 
+More bugs can be found in my front end readme
+
 1. Error when creating new user. Fix: delete local database
 
 ![createuser bug](readme/images/bugs/createuser_bug.png)
@@ -247,10 +249,13 @@ Save delete testing
 
 ## Unfixed Bugs
 
+More bugs can be found in my front end readme
+
 Due to time constrains we were unable to fix these following bugs:
 
-1. Issue: When adding or editing  reviews the draft function looses the post as a end user.
-Potential fix: Add a draft section in navbar where all drafts are saved.
+1. When going into gallery posts with an id number I get a double form as shown below.
+
+![createuser bug](readme/images/bugs/doubleinput_bugs.png)
 
 
 # Deployment
