@@ -24,9 +24,6 @@
 
 
 
-
-
-
 # Matte Black
 
 [![Matte Black](/readme/images/responsive.png)](https://matte-black.herokuapp.com/)
@@ -473,46 +470,195 @@ Place under JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 24. In terminal run python manage.py migrate and pip freeze > requirements.txt
 25. git add, commit, push
 
+26. Create views.py in project app e.g MB-API/views.py
+27. Add following into views.py:
+
+```
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view()
+def root_route(request):
+    return Response({"message": "Welcome to my django rest framework API!"})
+
+```
+28. In the project app urls.py add imports at top and urlpatterns under:
+
+```
+…
+from .views import root_route
+
+
+urlpatterns = [
+    …,
+    path('', root_route)
+]
+
+```
+
+29. Add pagination in settings.py: 
+
+```
+REST_FRAMEWORK = {
+    ...,
+    'DEFAULT_PAGINATION_CLASS':  'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    }
+
+
+```
+
+30.  Add following under last block of code but no part of same code:
+
+```
+if 'DEV' not in os.environ:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+        'restframework.renderers.JSONRenderer'
+    ]
+
+```
+
+31. In settings.py add date and time formatting:
+
+```
+REST_FRAMEWORK = {
+   ...
+    'DATETIME_FORMAT': '%d %b %Y'
+    }
+
+```
+
+32. To add datetime you can add the following to comments for method to show when comment was posted or updated as per the below. But can be used in any serializer. Don't forget the import above too!
+
+```
+from django.contrib.humanize.templatetags.humanize import naturaltime
+
+created_at = serializers.SerializerMethodField()
+updated_at = serializers.SerializerMethodField()
+
+    def get_created_at(self, obj):
+        return naturaltime(obj.created_at)
+
+    def get_updated_at(self, obj):
+        return naturaltime(obj.updated_at)
+
+```
+
+33. Git add, commit, push
+
+Heroku deployment:
+
+34. Create new app in Heroku choosing an appropriate name and region
+35. Log in to ElephantSQL or create an account 
+36. Create new instance in ElephantSQL and select free plan and appropriate name and region.
+37. Click into created database and copy URL which should begin with postgres:// 
+38. In Heroku open app
+39. Go to settings.
+40. Click reveal config Vars
+41. Add DATABASE_URL Key with url which is the postgres:// url.
+42. Head back to your project and use pip install dj_database_url in terminal to install dj database.
+43. Add import and Databse as per the below:
+
+```
+… 
+import dj_database_url
 
 
 
+DATABASES = {
+    'default': ({
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    } if 'DEV' in os.environ else dj_database_url.parse(
+        os.environ.get('DATABASE_URL')
+    ))
+}
+
+44. Install Gunicorn via pip install gunicorn
+45. Create Procfile in root of project and add the following lines:
+
+```
+release: python manage.py makemigrations && python manage.py migrate
+
+web: gunicorn drf_api.wsgi
+
+```
+46. Head to your settings.py adn add:
+
+```
+ALLOWED_HOSTS = ['<YOURAPPNAME>.herokuapp.com', 'localhost']
+
+```
+
+47. Install cors via pip install django-cors-headers
+48. In your settings.py add the following into your installed apps:
+
+```
+INSTALLED_APPS = [
+    ...
+    'dj_rest_auth.registration',
+    'corsheaders',
+
+    'profiles',
+    ...
+]
+
+```
+49. Add following to the top of the middleware list in your settings.py:
+
+```
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    ...
+]
+
+```
+
+50. Add following under your middleware list:
+
+```
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.gitpod\.io$",
+    ]
 
 
+CORS_ALLOW_CREDENTIALS = True
+JWT_AUTH_SAMESITE = 'None'
 
+```
 
+51. In your env.py set:
 
+```
+os.environ['SECRET_KEY'] = 'CreateRandomValue'
 
+```
 
+52. In your settings.py add:
+
+```
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = 'DEV' in os.environ
+```
+
+53. In Heroku config vars add matching values to what is in your env.py e.g CLOUDINARY_URL, SECRET_KEY and add DISABLE_COLLECTSTATIC = 1
+54. In project terminal run pip freeze > requirements.txt
+55. Git add, commit and push.
+56. Go into app and find the deploy tab
+57. Link to Github under deployment method
+58. Then search for your repo in Github and link.
+59. Scroll down and hit deploy and open app to see if it works!
+60. Back to project to git add, commit and push to make sure latest version had been deployed. 
 
 
 # References
-1. Template Used as respository: [CI template](https://github.com/Code-Institute-Org/gitpod-full-template)
-2. Fonts used were from Google Fonts: [Google Fonts](https://fonts.google.com/)
-3. Icons were taken from Font Awesone: [Font Awesome](https://fontawesome.com/)
-4. Inspiration for structures, models, views and URLS were taken from the "I think therefore I Blog" project walkthrough: [I think there I blog Walkthrogh](https://github.com/Code-Institute-Solutions/Django3blog/tree/master/11_messages)
-5. Much of Project help was taken from Django Central such as issues linking URL, Models and views: [Django Central Articles](https://djangocentral.com/articles/)
-6. For General help through out my project teh offical Django documentation was great help: [Django](https://docs.djangoproject.com/)
-7. Bootstrap was used for design and structure of UI: [Bootstrap](https://getbootstrap.com/)
-8. Button design was fro I used "Buy me a coffee": [Copy & Paste CSS] (https://copy-paste-css.com/)
-9. Placeholder images are taken from: [Pixabay](https://pixabay.com/)
-10. Deployment was on Heroku: [Heroku](https://heroku.com/)
-11. Static media storage: [Cloudinary](https://cloudinary.com/)
-12. Database: [ElephantSQL](https://elephantsql.com)
-13. HTML template used for Blog: [Clean Blog](https://startbootstrap.com/theme/clean-blog)
-14. Extended text fields for Bootstrap: [Summernote](https://summernote.org/)
-15. Django Authentication source: [Django-allauth](https://django-allauth.readthedocs.io/en/latest/)
-16. Django general help: [Mozilla Developers](https://developer.mozilla.org/)
-17. Wireframe: [Balsamiq](https://balsamiq.com/)
-18. Models diagram: [LucidChart](https://www.lucidchart.com/)
-19. Favicon Generator: [Favicon Generator](https://favicon.io/favicon-converter/)
-20. General help taken for HTML, CSS, JS, Python and django: [W3schools](https://www.w3schools.com/)
-21. General project help was also taken from Reddit: [Reddit](https://www.reddit.com/)
-22. General project help was also taken from Stackoverflow: [StackOverflow](https://stackoverflow.com/)
-23. Help with watch list article: [Article for Watchlist 1](https://stackoverflow.com/questions/63403309/watchlist-system-on-django) , [Article for Watchlist 2](https://forum.djangoproject.com/t/adding-watchlist-watchlist-not-displaying-added-items/12411)
-24. Top of page button: [Top of page button](https://www.w3schools.com/howto/howto_js_scroll_to_top.asp)
+All Refrences are in my Frontend Readme
 
 
 # Acknowledgements
-1. Much help was taken from Tutors at Code Institute.
-2. Much help and inspirtation was taken from Code Insitute course materials.
-3. Much help was taken from Code Institute Slack channels. 
+All acknowledgements are in my Frontend Readme
